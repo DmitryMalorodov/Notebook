@@ -11,6 +11,5 @@ public class MainController {
     public String home(Model model) {
         model.addAttribute("title", "Записная книжка");
         return "home";
-
     }
 }
