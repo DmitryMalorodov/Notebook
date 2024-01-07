@@ -10,10 +10,11 @@
 
 <div class="container mt-5">
     <h1>Записи</h1>
-    <div th:each="el : ${entries}" class="alert alert-info mt-2">
+    <div th:each="el : ${entry}" class="alert alert-info mt-2">
         <h3 th:text="${el.name}"/>
         <p th:text="${el.description}"/>
-        <a th:href="'/entry/' + ${el.id}" class="btn btn-warning">Подробнее</a>
+        <a th:href="'/entry/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a>
+        <a th:href="'/entry/' + ${el.id} + '/delete'" class="btn btn-warning">Удалить</a>
     </div>
 </div>
 

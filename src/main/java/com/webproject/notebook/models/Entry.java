@@ -13,6 +13,13 @@ public class Entry {
     private Long id;
     private String name, description;
 
+    public Entry(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Entry() {}
+
     public Long getId() {
         return id;
     }
