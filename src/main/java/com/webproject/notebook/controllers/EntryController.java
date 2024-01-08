@@ -28,12 +28,12 @@ public class EntryController {
     }
 
     @GetMapping("/entry/add")
-    public String addEntry(Model model) {
-        return "addEntry";
+    public String entryAdd(Model model) {
+        return "entryAdd";
     }
 
     @PostMapping("/entry/add")
-    public String addPostEntry(@RequestParam String name, @RequestParam String description, Model model) {
+    public String entryAddPost(@RequestParam String name, @RequestParam String description, Model model) {
         Entry entry = new Entry(name, description);
         entryRepository.save(entry);
         return "redirect:/entry";
@@ -50,5 +50,35 @@ public class EntryController {
         entry.ifPresent(result :: add);
         model.addAttribute("entry", result);
         return "entryDetails";
+    }
+
+    @GetMapping("/entry/{id}/edit")
+    public String entryEdit(@PathVariable(value = "id") long id, Model model) {
+        if (!entryRepository.existsById(id)) {
+            return "redirect:/entry";
+        }
+
+        Optional<Entry> entry = entryRepository.findById(id);
+        List<Entry> result = new ArrayList<>();
+        entry.ifPresent(result :: add);
+        model.addAttribute("entry", result);
+        return "entryEdit";
+    }
+
+    @PostMapping("/entry/{id}/edit")
+    public String entryEditPost(@PathVariable(value = "id") long id, @RequestParam String name, @RequestParam String description, Model model) {
+        Entry entry = entryRepository.findById(id).orElseThrow();
+
+        entry.setName(name);
+        entry.setDescription(description);
+        entryRepository.save(entry);
+        return "redirect:/entry";
+    }
+
+    @PostMapping("/entry/{id}/delete")
+    public String entryDeletePost(@PathVariable(value = "id") long id, Model model) {
+        Entry entry = entryRepository.findById(id).orElseThrow();
+        entryRepository.delete(entry);
+        return "redirect:/entry";
     }
 }
